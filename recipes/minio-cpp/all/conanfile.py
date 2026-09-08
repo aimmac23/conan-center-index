@@ -44,6 +44,8 @@ class MinioCppConan(ConanFile):
 
     def validate(self):
         check_min_cppstd(self, 17)
+        if not self.dependencies["cpp-httplib"].options.get_safe("with_openssl"):
+            raise ConanInvalidConfiguration("Requires cpp-httplib with OpenSSL support. Use -o 'cpp-httplib/*:with_openssl=True'")
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
